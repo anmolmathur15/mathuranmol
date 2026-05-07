@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: only light;
+  --background: #efefef;
+  --foreground: #1a1a1a;
+  --green: #10b981;
+  --green-dim: #059669;
+  --cyan: #0891b2;
+  --cyan-dim: #0e7490;
+  --surface: #ffffff;
+  --border: #d4d4d8;
+  --muted: #71717a;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+::selection {
+  background: var(--green);
+  color: #ffffff;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: translateY(-1.5px);
+    opacity: 1;
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only fixed left-3 top-3 z-50 rounded-md border bg-white px-2 py-1 text-xs text-slate-900;
+    border-color: var(--border);
+  }
+
+  .section-heading {
+    @apply text-xs font-bold uppercase tracking-wider mb-3;
+    color: var(--muted);
+  }
+
+  .line-block {
+    @apply border-l-2 pl-3;
+    border-color: var(--border);
+  }
+
+  .dancing-dot {
+    display: inline-block;
+    animation: dotPulse 1.35s ease-in-out infinite;
+  }
+
+  .text-foreground {
+    color: var(--foreground);
+  }
+
+  .text-muted {
+    color: var(--muted);
+  }
+
+  .text-cyan {
+    color: var(--cyan);
+  }
+
+  .text-cyan:hover {
+    color: var(--cyan-dim);
+  }
+
+  .text-green {
+    color: var(--green);
+  }
+
+  .text-green:hover {
+    color: var(--green-dim);
+  }
+
+  .bg-background {
+    background: var(--background);
+  }
+
+  .bg-foreground {
+    background: var(--foreground);
+  }
+
+  .bg-surface {
+    background: var(--surface);
+  }
+
+  .border-border {
+    border-color: var(--border);
+  }
+}
