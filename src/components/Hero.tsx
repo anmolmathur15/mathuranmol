@@ -48,7 +48,7 @@ export default function Hero({ data, profileImageAvailable }: HeroProps) {
           alt={data.profileImage.alt}
           width={1280}
           height={1280}
-          className="rounded-lg mb-2 w-full max-h-[580px] object-cover"
+          className="rounded-lg mx-auto mb-2 w-[85%] sm:w-full max-h-[580px] object-cover"
           unoptimized
           priority
         />
