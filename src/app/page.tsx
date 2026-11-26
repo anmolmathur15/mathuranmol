@@ -2,8 +2,7 @@ import { access } from "node:fs/promises";
 import path from "node:path";
 
 import Hero from "@/components/Hero";
-import Sidebar from "@/components/Sidebar";
-import { portfolioData } from "@/data/portfolio";
+import { portfolioData, type TimelineItem } from "@/data/portfolio";
 
 async function publicFileExists(fileName: string): Promise<boolean> {
   try {
@@ -14,29 +13,70 @@ async function publicFileExists(fileName: string): Promise<boolean> {
   }
 }
 
+function Timeline({ items }: { items: TimelineItem[] }) {
+  return (
+    <ul className="timeline" role="list">
+      {items.map(({ title, organization, period }) => (
+        <li key={title}>
+          <span className="timeline-title">{title}</span>
+          <span>{organization}</span>
+          <span className="timeline-period">{period}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default async function Home() {
-  const profileImageAvailable = await publicFileExists("profile.jpg");
+  const { hero, projects, experience, education, skills } = portfolioData;
+  const profileImageAvailable = await publicFileExists(hero.profileImage.src);
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
       <main
         id="main-content"
-        className="h-full flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-16 p-6 sm:p-8 lg:p-12 max-w-[1500px] mx-auto py-10 sm:py-14 lg:py-10 lg:min-h-screen"
+        className="portfolio"
+        tabIndex={-1}
       >
-        <div className="lg:w-[420px] shrink-0 flex flex-col">
-          <Hero
-            data={portfolioData.hero}
-            profileImageAvailable={profileImageAvailable}
-          />
-        </div>
+        <Hero data={hero} profileImageAvailable={profileImageAvailable} />
 
-        <div className="flex-1 flex flex-col min-w-0">
-          <Sidebar data={portfolioData} />
-        </div>
+        <section className="portfolio-section" aria-labelledby="experience">
+          <h2 id="experience">Experience</h2>
+          <Timeline items={experience} />
+        </section>
+
+        <section className="portfolio-section" aria-labelledby="education">
+          <h2 id="education">Education</h2>
+          <Timeline items={education} />
+        </section>
+
+        <section className="portfolio-section" aria-labelledby="projects">
+          <h2 id="projects">Projects</h2>
+          <div className="project-grid">
+            {projects.map(({ title, summary, href }) => (
+              <article key={href} className="project">
+                <h3><a href={href}>{title}</a></h3>
+                <p>{summary}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="portfolio-section" aria-labelledby="skills">
+          <h2 id="skills">Skills</h2>
+          <dl className="skills-grid">
+            {skills.map(({ label, items }) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{items.join(" · ")}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </main>
-    </div>
+    </>
   );
 }

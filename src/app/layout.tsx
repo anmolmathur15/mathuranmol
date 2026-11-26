@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Anmol Mathur — Portfolio",
   description:
-    "Portfolio of Anmol Mathur, Computer Engineering master's student, research assistant, and software developer working across machine learning, embedded systems, and software engineering."
+    "Anmol Mathur is a software engineer and research assistant working on cloud systems and machine learning for wearable signals."
 };
 
 export default function RootLayout({
