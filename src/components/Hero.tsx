@@ -7,12 +7,6 @@ interface HeroProps {
   profileImageAvailable: boolean;
 }
 
-function linkTone(index: number): string {
-  if (index % 3 === 0) return "text-foreground";
-  if (index % 3 === 1) return "text-cyan";
-  return "text-green";
-}
-
 function initials(name: string): string {
   return name
     .split(" ")
@@ -24,43 +18,39 @@ function initials(name: string): string {
 
 export default function Hero({ data, profileImageAvailable }: HeroProps) {
   return (
-    <div>
-      <h1 className="text-[44px] leading-[0.95] font-bold text-foreground mb-1 tracking-[-0.02em]">{data.name}</h1>
-      <p className="text-[13px] text-muted mb-3">{data.headline}</p>
-
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-5">
-        {data.links.map((link, index) => (
-          <a
-            key={link.label}
-            href={link.href}
-            target={link.external ? "_blank" : undefined}
-            rel={link.external ? "noopener noreferrer" : undefined}
-            className={`text-xs underline hover:text-muted ${linkTone(index)}`}
-          >
-            {link.label}
-          </a>
-        ))}
+    <header className="hero">
+      <div>
+        <h1>{data.name}</h1>
+        <p className="hero-intro">{data.intro}</p>
+        <p className="hero-location">{data.location}</p>
+        <div className="contact-links">
+          {data.links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
       </div>
 
       {profileImageAvailable ? (
         <Image
           src={data.profileImage.src}
           alt={data.profileImage.alt}
-          width={1280}
-          height={1280}
-          className="rounded-lg mb-2 w-full max-h-[580px] object-cover"
-          unoptimized
+          width={280}
+          height={280}
+          className="hero-portrait"
           priority
         />
       ) : (
-        <div className="rounded-lg mb-2 w-full h-[420px] bg-surface border border-border flex items-center justify-center text-4xl font-semibold text-muted">
+        <div className="hero-portrait portrait-fallback" aria-hidden="true">
           {initials(data.name)}
         </div>
       )}
-
-      <p className="text-[12px] text-muted leading-relaxed">
-        Based in {data.location}. Open to research collaborations, software engineering roles, and internships.
-      </p>
-    </div>
+    </header>
   );
 }
